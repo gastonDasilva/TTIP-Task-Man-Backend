@@ -37,26 +37,22 @@ public class ProyectoController {
         return new ResponseEntity<List<Proyecto>>(lproyect, HttpStatus.OK);
     }
 
-/*
     @RequestMapping(value = "/proyecto/{userId}", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Proyecto> nuevoProyecto(@PathVariable("userId") long id, @RequestBody Proyecto proyecto){
         Usuario user = userService.getById(id);
-        System.out.println(proyecto.getNombre());
-        System.out.println(proyecto.getMiembros());
-        System.out.println(user);
         if(user == null) {
             return new ResponseEntity<Proyecto>(HttpStatus.NOT_FOUND);
         }
         else {
             proyecto.setCreador(user);
-            proyecto.addMiembro(user);
+//            proyecto.addMiembro(user);
             user.agregarProyecto(proyecto);
             long idP=this.proyectService.setProyecto(proyecto);
             this.userService.update(user);
             proyecto.setId(idP);
             return new ResponseEntity<Proyecto>(proyecto, HttpStatus.OK);
         }
-    }*/
+    }
 
 /*
     @RequestMapping(value = "/user/proyecto/{id}", method = RequestMethod.PUT, consumes = "application/json")

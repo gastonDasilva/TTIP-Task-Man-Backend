@@ -1,9 +1,6 @@
 package ar.unq.edu.TaskMan.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -18,9 +15,8 @@ public class Usuario {
     private String apellido;
     private String email;
     private String password;
-/*
+    @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Proyecto> proyectos = new HashSet<Proyecto>();
-*/
     public Usuario() {}
 
     public Usuario(String unUsuario,String unNombre,
@@ -82,7 +78,7 @@ public class Usuario {
         this.password = password;
     }
 
-   /* public Set<Proyecto> getProyecto() {
+    public Set<Proyecto> getProyecto() {
         return proyectos;
     }
 
@@ -94,7 +90,7 @@ public class Usuario {
         this.proyectos.add(proyecto);
     }
 
-    public void actualizarProyectos(Proyecto proyecto) {
+    /*public void actualizarProyectos(Proyecto proyecto) {
         Optional<Proyecto> proyectoStream = this.proyectos.stream().filter(p ->p.getId() == proyecto.getId()).findFirst();
         System.out.println("actualizando usuario: " + this.usuario);
         System.out.println(proyectoStream.isPresent());

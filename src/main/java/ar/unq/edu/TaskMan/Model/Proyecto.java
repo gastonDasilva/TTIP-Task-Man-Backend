@@ -1,26 +1,28 @@
 package ar.unq.edu.TaskMan.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.util.*;
 
 @Entity
 public class Proyecto {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private String nombre;
-    //private Usuario creador;
-    /*private List<Usuario> miembros = new ArrayList<Usuario>();
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties("proyecto")
+    private Usuario creador;
+    /*private List<Usuario> miembros = new ArrayList<Usuario>();*/
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Tarea> tareas = new HashSet<Tarea>();
-*/
+
     public Proyecto() {}
     public Proyecto(String nombre, Usuario usuario) {
         this.nombre  = nombre;
-        //this.creador = usuario;
-        //this.miembros.add(usuario);
+        this.creador = usuario;
+//        this.miembros.add(usuario);
 
     }
 
@@ -30,12 +32,12 @@ public class Proyecto {
     public void setMiembros(List<Usuario> miembros) {
         this.miembros = miembros;
     }*/
-    /*public Usuario getCreador() {
+    public Usuario getCreador() {
         return creador;
     }
     public void setCreador(Usuario creador) {
         this.creador = creador;
-    }*/
+    }
     public Long getId() {
         return id;
     }
