@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -28,10 +29,10 @@ public class UsuarioService {
         return userDAO.findById(id).get();
     }
 
-  /*  @Transactional
-    public Usuario getByUsername(String username) {
+    @Transactional
+    public Optional<Usuario> getByUsername(String username) {
         return userDAO.getByUsername(username);
-    }*/
+    }
 
 
     @Transactional

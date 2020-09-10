@@ -11,8 +11,8 @@ import java.util.Set;
 @Entity
 public class Usuario {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    public Long id;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
     private String usuario;
     private String nombre;
     private String apellido;

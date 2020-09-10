@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @EnableAutoConfiguration
@@ -78,13 +79,15 @@ public class UsuarioController {
 
 
     //	@RequestMapping(value = "/usuario/buscar/{username}", method = RequestMethod.GET, produces = "application/json")
-   /* @RequestMapping(value = "/usuario/buscar/{username}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/usuario/buscar/{username}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Usuario> getUserByUsername(@PathVariable("username") String user) {
 
-        Usuario result = this.userService.getByUsername(user);
-        if(result == null) {return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);};
-        return new ResponseEntity<Usuario>(result,HttpStatus.OK);
+        Optional<Usuario> usuarioOptional = this.userService.getByUsername(user);
+        if(usuarioOptional.isEmpty()) {
+            return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Usuario>(usuarioOptional.get(),HttpStatus.OK);
 
-    }*/
+    }
 }
 
