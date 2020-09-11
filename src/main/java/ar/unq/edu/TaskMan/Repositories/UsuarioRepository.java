@@ -14,4 +14,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Integer> {
 
     @Query(value = "select * from usuario where email like %?1", nativeQuery = true)
     Optional<Usuario> getByUsername(String username);
+
+    @Query(value = "select * from usuario where usuario.email like  %?1 or usuario.usuario like %?1", nativeQuery = true)
+    Optional<Usuario> getByUsuarioOEmail(String usuarioOEmail);
 }
