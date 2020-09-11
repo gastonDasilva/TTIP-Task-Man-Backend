@@ -40,6 +40,10 @@ public class UsuarioService {
         System.out.println("actualizando " + user.getUsuario());
         userDAO.save(user);
     }
+
+    public Optional<Usuario> getByUsuarioOEmail(String usuarioOEmail) {
+        return userDAO.getByUsuarioOEmail(usuarioOEmail);
+    }
    /* @Transactional
     public List<Usuario> search(String nombre){
         return userDAO.searchUsers(nombre);

@@ -1,5 +1,6 @@
 package ar.unq.edu.TaskMan.Webservice;
 
+import ar.unq.edu.TaskMan.Model.Login;
 import ar.unq.edu.TaskMan.Model.Usuario;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -76,17 +78,26 @@ public class UsuarioController {
 //
 //	}
 
-
-
-    //	@RequestMapping(value = "/usuario/buscar/{username}", method = RequestMethod.GET, produces = "application/json")
     @RequestMapping(value = "/usuario/buscar/{username}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Usuario> getUserByUsername(@PathVariable("username") String user) {
-
         Optional<Usuario> usuarioOptional = this.userService.getByUsername(user);
         if(usuarioOptional.isEmpty()) {
             return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Usuario>(usuarioOptional.get(),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<Usuario> loginUsuario(@RequestBody Login body){
+        Optional<Usuario> usuarioOptional = this.userService.getByUsuarioOEmail(body.getUserOrEmail());
+        if(usuarioOptional.isEmpty()){
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+        }
+        if(usuarioOptional.get().getPassword().equals(body.getPassword())){
+            return new ResponseEntity<Usuario>(usuarioOptional.get(), HttpStatus.OK);
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Contraseña incorrecta");
+        }
 
     }
 }
