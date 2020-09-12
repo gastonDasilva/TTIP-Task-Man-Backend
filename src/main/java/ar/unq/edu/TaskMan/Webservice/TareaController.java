@@ -36,11 +36,11 @@ public class TareaController {
 
     @RequestMapping(value = "/tarea/{id}", method = RequestMethod.GET)
     public ResponseEntity<Tarea> getTarea(@PathVariable("id") Long id) {
-        Tarea tarea= this.service.getById(id);
-        if (tarea == null) {
-            return new ResponseEntity<Tarea>(HttpStatus.NOT_FOUND);
+        Optional<Tarea> tarea= this.service.getById(id);
+        if (tarea.isEmpty()) {
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarea no encontrada");
         }
-        return new ResponseEntity<Tarea>(tarea, HttpStatus.OK);
+        return new ResponseEntity<>(tarea.get(), HttpStatus.OK);
     }
     @RequestMapping(value = "/tareas/{idUsuario}", method = RequestMethod.GET)
     public ResponseEntity<List<Tarea>> getAllUsuario(@PathVariable ("idUsuario") Long idUsuario){
@@ -65,40 +65,37 @@ public class TareaController {
             return new ResponseEntity<>(tarea,HttpStatus.OK);
         }
     }
-    /*@RequestMapping(value = "/tarea/{id}/{idProyecto}", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(value = "/tarea/{id}/{idProyecto}", method = RequestMethod.DELETE, consumes = "application/json")
     public ResponseEntity<Tarea> deleteTask(@PathVariable("id") long id,@PathVariable("idProyecto") long idProy) {
-        System.out.println("Fetching & Deleting Issue with id " + id);
-
-        Tarea task = service.getById(id);
-        Proyecto proyecto = proyectoService.getById(idProy);
-        if (task == null || proyecto == null) {
+        Optional<Tarea> task = service.getById(id);
+        Optional<Proyecto> proyecto = proyectoService.getById(idProy);
+        if (task.isEmpty() || proyecto.isEmpty()) {
             System.out.println("Unable to delete. Task with id " + id + " not found");
             return new ResponseEntity<Tarea>(HttpStatus.NOT_FOUND);
         }
-
-        proyecto.eliminarTarea(task);
-        proyectoService.updateProyecto(proyecto);
-        this.service.delete(task.getId());
+        proyecto.get().eliminarTarea(task.get());
+        proyectoService.updateProyecto(proyecto.get());
+        this.service.delete(task.get().getId());
 
         return new ResponseEntity<Tarea>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/tarea/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Tarea> updateTask(@PathVariable("id") long id, @RequestBody Tarea task ){
-        Tarea tarea = service.getById(id);
+        Optional<Tarea> tarea = service.getById(id);
 
-        if (tarea==null) {
-            return new ResponseEntity<Tarea>(HttpStatus.NOT_FOUND);
+        if (tarea.isEmpty()) {
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarea no encontrada");
         }
-        tarea.setTitulo(task.getTitulo());
-       // tarea.setAsignado(task.getAsignado());
-        tarea.setDescripcion(task.getDescripcion());
-        tarea.setEstado(task.getEstado());
-        tarea.setFecha_creacion(task.getFecha_creacion());
-        tarea.setFecha_estimada(task.getFecha_estimada());
-        tarea.setPrioridad(task.getPrioridad());
+//        tarea.setTitulo(task.getTitulo());
+//       // tarea.setAsignado(task.getAsignado());
+//        tarea.setDescripcion(task.getDescripcion());
+//        tarea.setEstado(task.getEstado());
+//        tarea.setFecha_creacion(task.getFecha_creacion());
+//        tarea.setFecha_estimada(task.getFecha_estimada());
+//        tarea.setPrioridad(task.getPrioridad());
 
-        service.update(tarea);
-        return new ResponseEntity<Tarea>(tarea, HttpStatus.OK);
-    }*/
+        service.update(tarea.get());
+        return new ResponseEntity<>(tarea.get(), HttpStatus.OK);
+    }
 }

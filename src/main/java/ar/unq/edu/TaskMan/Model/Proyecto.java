@@ -58,14 +58,10 @@ public class Proyecto {
         this.tareas = tareas;
     }
     public void addTarea(Tarea tarea) {this.tareas.add(tarea);}
-    /*public void eliminarTarea(Tarea tarea) {
+
+    public void eliminarTarea(Tarea tarea) {
         System.out.println(tareas.size());
-        Iterator<Tarea> it = tareas.iterator();
-        while (it.hasNext()){
-            if (it.next().getId() == tarea.getId()){
-                it.remove();
-            }
-        }
+        tareas.removeIf(tarea1 -> tarea1.getId() == tarea.getId());
         System.out.println(tareas.size());
-    }*/
+    }
 }
