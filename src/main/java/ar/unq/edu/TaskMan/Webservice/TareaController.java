@@ -9,8 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
@@ -38,31 +41,28 @@ public class TareaController {
         }
         return new ResponseEntity<Tarea>(tarea, HttpStatus.OK);
     }
-    /*@RequestMapping(value = "/tareas/{idUsuario}", method = RequestMethod.GET)
+    @RequestMapping(value = "/tareas/{idUsuario}", method = RequestMethod.GET)
     public ResponseEntity<List<Tarea>> getAllUsuario(@PathVariable ("idUsuario") Long idUsuario){
-        List<Tarea> tareas = this.service.getAsignadas(idUsuario);
+        Optional<List<Tarea>> tareas = this.service.getAsignadas(idUsuario);
         if(tareas.isEmpty()){
-            return new ResponseEntity<List<Tarea>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
         }
-        return new ResponseEntity<List<Tarea>>(tareas, HttpStatus.OK);
-    }*/
-   /* @RequestMapping(value = "/tarea/{idProyecto}", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<Tarea> create(@RequestBody Tarea input, @PathVariable ("idProyecto") long idProyecto) throws Exception{
-        Proyecto proyecto=this.proyectoService.getById(idProyecto);
-        if(proyecto == null) {
-            return new ResponseEntity<Tarea>(HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(tareas.get(), HttpStatus.OK);
+    }
+    @RequestMapping(value = "/tarea/{idProyecto}", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity<Tarea> create(@RequestBody Tarea tarea, @PathVariable ("idProyecto") long idProyecto) throws Exception{
+        Optional<Proyecto> proyectoOptional=this.proyectoService.getById(idProyecto);
+        if(proyectoOptional.isEmpty()) {
+            throw  new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No existe el proyecto");
         }
         else {
-            Tarea tarea = new Tarea(input.getTitulo(),input.getDescripcion());
             this.service.save(tarea);
-
-            proyecto.addTarea(tarea);
-            this.proyectoService.updateProyecto(proyecto);
-            return new ResponseEntity<Tarea>(tarea,HttpStatus.OK);
-
+            proyectoOptional.get().addTarea(tarea);
+            this.proyectoService.updateProyecto(proyectoOptional.get());
+            return new ResponseEntity<>(tarea,HttpStatus.OK);
         }
     }
-    @RequestMapping(value = "/tarea/{id}/{idProyecto}", method = RequestMethod.DELETE, consumes = "application/json")
+    /*@RequestMapping(value = "/tarea/{id}/{idProyecto}", method = RequestMethod.DELETE, consumes = "application/json")
     public ResponseEntity<Tarea> deleteTask(@PathVariable("id") long id,@PathVariable("idProyecto") long idProy) {
         System.out.println("Fetching & Deleting Issue with id " + id);
 

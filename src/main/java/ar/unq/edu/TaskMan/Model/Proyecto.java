@@ -50,7 +50,7 @@ public class Proyecto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    /*public void addMiembro(Usuario user) {this.miembros.add(user);}
+    /*public void addMiembro(Usuario user) {this.miembros.add(user);}*/
     public Set<Tarea> getTareas() {
         return tareas;
     }
@@ -58,7 +58,7 @@ public class Proyecto {
         this.tareas = tareas;
     }
     public void addTarea(Tarea tarea) {this.tareas.add(tarea);}
-    public void eliminarTarea(Tarea tarea) {
+    /*public void eliminarTarea(Tarea tarea) {
         System.out.println(tareas.size());
         Iterator<Tarea> it = tareas.iterator();
         while (it.hasNext()){

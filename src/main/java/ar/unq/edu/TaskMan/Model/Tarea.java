@@ -1,9 +1,8 @@
 package ar.unq.edu.TaskMan.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -13,7 +12,9 @@ public class Tarea {
     private Long id;
     private String titulo;
     private String descripcion;
-   /* public Usuario asignado;*/
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties("proyecto")
+    public Usuario asignado;
     public Estado estado;
     public LocalDate fecha_creacion;
     public LocalDate fecha_estimada;
@@ -54,13 +55,13 @@ public class Tarea {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    /*public Usuario getAsignado() {
+    public Usuario getAsignado() {
         return asignado;
     }
     public void setAsignado(Usuario asignado) {
         this.asignado = asignado;
         this.estado = Estado.EN_PROCESO;
-    }*/
+    }
 
     public Prioridad getPrioridad() {
         return prioridad;

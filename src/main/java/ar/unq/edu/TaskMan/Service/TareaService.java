@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TareaService {
@@ -38,8 +39,6 @@ public class TareaService {
         return tareaDao.findAll();
     }
 
-    /*
     @Transactional
-    public List<Tarea> getAsignadas(Long id){ return tareaDao.getAsignadas(id);}
-    */
+    public Optional<List<Tarea>> getAsignadas(Long id){ return tareaDao.getAsignadas(id);}
 }

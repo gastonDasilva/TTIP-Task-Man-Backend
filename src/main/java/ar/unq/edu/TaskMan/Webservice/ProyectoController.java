@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT})
@@ -99,13 +100,13 @@ public class ProyectoController {
 */
     @RequestMapping(value = "/proyecto/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Proyecto> getProyecto(@PathVariable("id") long id){
-        Proyecto proyect=this.proyectService.getById(id);
-        if(proyect == null) {
-            return new ResponseEntity<Proyecto>(HttpStatus.NOT_FOUND);
+        Optional<Proyecto> proyect=this.proyectService.getById(id);
+        if(proyect.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         }
         else {
-            return new ResponseEntity<Proyecto>(proyect,HttpStatus.OK);
+            return new ResponseEntity<>(proyect.get(),HttpStatus.OK);
 
         }
     }

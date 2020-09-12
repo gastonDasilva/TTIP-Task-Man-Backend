@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProyectoService {
@@ -29,13 +30,13 @@ public class ProyectoService {
 
     }
 
-    public Proyecto getById(long id) {
-        return proyectoDAO.findById(id).get();
+    public Optional<Proyecto> getById(long id) {
+        return proyectoDAO.findById(id);
     }
 
     @Transactional
     public void delete(Long id) {
-        proyectoDAO.delete(this.getById(id));
+        proyectoDAO.delete(this.getById(id).get());
     }
 
 
