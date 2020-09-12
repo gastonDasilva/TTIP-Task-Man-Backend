@@ -1,5 +1,6 @@
 package ar.unq.edu.TaskMan.Webservice;
 
+import ar.unq.edu.TaskMan.Model.Estado;
 import ar.unq.edu.TaskMan.Model.Proyecto;
 import ar.unq.edu.TaskMan.Model.Tarea;
 import ar.unq.edu.TaskMan.Service.ProyectoService;
@@ -56,6 +57,8 @@ public class TareaController {
             throw  new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No existe el proyecto");
         }
         else {
+            tarea.setAsignado(proyectoOptional.get().getCreador());
+            tarea.setEstado(Estado.CREADA);
             this.service.save(tarea);
             proyectoOptional.get().addTarea(tarea);
             this.proyectoService.updateProyecto(proyectoOptional.get());
