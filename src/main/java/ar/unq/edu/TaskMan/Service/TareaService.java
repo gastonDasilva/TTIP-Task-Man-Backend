@@ -26,12 +26,12 @@ public class TareaService {
 
     @Transactional
     public void delete(Long id) {
-        tareaDao.delete(this.getById(id));
+        tareaDao.delete(this.getById(id).get());
     }
 
     @Transactional
-    public Tarea getById(Long id) {
-        return tareaDao.findById(id).get();
+    public Optional<Tarea> getById(Long id) {
+        return tareaDao.findById(id);
     }
 
     @Transactional
