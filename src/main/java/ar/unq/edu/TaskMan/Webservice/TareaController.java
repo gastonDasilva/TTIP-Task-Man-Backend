@@ -65,19 +65,18 @@ public class TareaController {
             return new ResponseEntity<>(tarea,HttpStatus.OK);
         }
     }
-    @RequestMapping(value = "/tarea/{id}/{idProyecto}", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(value = "/tarea/{idProyecto}/{id}", method = RequestMethod.DELETE, consumes = "application/json")
     public ResponseEntity<Tarea> deleteTask(@PathVariable("id") long id,@PathVariable("idProyecto") long idProy) {
         Optional<Tarea> task = service.getById(id);
         Optional<Proyecto> proyecto = proyectoService.getById(idProy);
         if (task.isEmpty() || proyecto.isEmpty()) {
-            System.out.println("Unable to delete. Task with id " + id + " not found");
-            return new ResponseEntity<Tarea>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         proyecto.get().eliminarTarea(task.get());
         proyectoService.updateProyecto(proyecto.get());
         this.service.delete(task.get().getId());
 
-        return new ResponseEntity<Tarea>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/tarea/{id}", method = RequestMethod.PUT)
