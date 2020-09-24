@@ -21,13 +21,13 @@ import java.util.Optional;
 public class TareaController {
 
     @Autowired
-    TareaService service ;
+    TareaService tareaService;
     @Autowired
     ProyectoService proyectoService;
 
     @RequestMapping(value = "/tareas", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Tarea>> getTareas() {
-        List<Tarea> tareas = this.service.getAll();
+        List<Tarea> tareas = this.tareaService.getAll();
         if (tareas == null) {
             return new ResponseEntity<List<Tarea>>(HttpStatus.NOT_FOUND);
         }
@@ -36,7 +36,7 @@ public class TareaController {
 
     @RequestMapping(value = "/tarea/{id}", method = RequestMethod.GET)
     public ResponseEntity<Tarea> getTarea(@PathVariable("id") Long id) {
-        Optional<Tarea> tarea= this.service.getById(id);
+        Optional<Tarea> tarea= this.tareaService.getById(id);
         if (tarea.isEmpty()) {
             throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarea no encontrada");
         }
@@ -44,7 +44,7 @@ public class TareaController {
     }
     @RequestMapping(value = "/tareas/{idUsuario}", method = RequestMethod.GET)
     public ResponseEntity<List<Tarea>> getAllUsuario(@PathVariable ("idUsuario") Long idUsuario){
-        Optional<List<Tarea>> tareas = this.service.getAsignadas(idUsuario);
+        Optional<List<Tarea>> tareas = this.tareaService.getAsignadas(idUsuario);
         if(tareas.isEmpty()){
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
         }
@@ -57,9 +57,8 @@ public class TareaController {
             throw  new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No existe el proyecto");
         }
         else {
-            tarea.setAsignado(proyectoOptional.get().getCreador());
             tarea.setEstado(Estado.CREADA);
-            this.service.save(tarea);
+            this.tareaService.save(tarea);
             proyectoOptional.get().addTarea(tarea);
             this.proyectoService.updateProyecto(proyectoOptional.get());
             return new ResponseEntity<>(tarea,HttpStatus.OK);
@@ -67,21 +66,21 @@ public class TareaController {
     }
     @RequestMapping(value = "/tarea/{idProyecto}/{id}", method = RequestMethod.DELETE, consumes = "application/json")
     public ResponseEntity<Tarea> deleteTask(@PathVariable("id") long id,@PathVariable("idProyecto") long idProy) {
-        Optional<Tarea> task = service.getById(id);
+        Optional<Tarea> task = tareaService.getById(id);
         Optional<Proyecto> proyecto = proyectoService.getById(idProy);
         if (task.isEmpty() || proyecto.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         proyecto.get().eliminarTarea(task.get());
         proyectoService.updateProyecto(proyecto.get());
-        this.service.delete(task.get().getId());
+        this.tareaService.delete(task.get().getId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/tarea/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Tarea> updateTask(@PathVariable("id") long id, @RequestBody Tarea task ){
-        Optional<Tarea> tarea = service.getById(id);
+        Optional<Tarea> tarea = tareaService.getById(id);
 
         if (tarea.isEmpty()) {
             throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarea no encontrada");
@@ -94,7 +93,7 @@ public class TareaController {
 //        tarea.setFecha_estimada(task.getFecha_estimada());
 //        tarea.setPrioridad(task.getPrioridad());
 
-        service.update(tarea.get());
+        tareaService.update(tarea.get());
         return new ResponseEntity<>(tarea.get(), HttpStatus.OK);
     }
 }

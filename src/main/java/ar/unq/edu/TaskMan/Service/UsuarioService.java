@@ -25,8 +25,8 @@ public class UsuarioService {
         userDAO.save(user);
     }
     @Transactional
-    public Usuario getById(Long id) {
-        return userDAO.findById(id).get();
+    public Optional<Usuario> getById(Long id) {
+        return userDAO.findById(id);
     }
 
     @Transactional
