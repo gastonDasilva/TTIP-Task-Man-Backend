@@ -7,11 +7,15 @@ import ar.unq.edu.TaskMan.Service.TareaService;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT})
@@ -28,31 +32,18 @@ public class ProyectoController {
 
     @RequestMapping(value = "/proyectos", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<Proyecto>> getProyectos() {
-
-        List<Proyecto> lproyect = this.proyectService.getAll();
-        lproyect.stream().forEach((p)->{
-            System.out.println(p.getNombre());
-            //System.out.println(p.getCreador());
-           // System.out.println(p.getMiembros());
-        });
-        return new ResponseEntity<List<Proyecto>>(lproyect, HttpStatus.OK);
+        return new ResponseEntity<>(this.proyectService.getAll(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/proyecto/{userId}", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Proyecto> nuevoProyecto(@PathVariable("userId") long id, @RequestBody Proyecto proyecto){
-        Usuario user = userService.getById(id);
-        if(user == null) {
-            return new ResponseEntity<Proyecto>(HttpStatus.NOT_FOUND);
+        Optional<Usuario> usuarioOptional = userService.getById(id);
+        if(usuarioOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         }
-        else {
-            proyecto.setCreador(user);
-//            proyecto.addMiembro(user);
-            user.agregarProyecto(proyecto);
-            long idP=this.proyectService.setProyecto(proyecto);
-            this.userService.update(user);
-            proyecto.setId(idP);
-            return new ResponseEntity<Proyecto>(proyecto, HttpStatus.OK);
-        }
+        proyecto.addMiembro(usuarioOptional.get());
+        proyecto.setId(this.proyectService.setProyecto(proyecto));
+        return new ResponseEntity<Proyecto>(proyecto, HttpStatus.OK);
     }
 
 /*
@@ -98,6 +89,17 @@ public class ProyectoController {
     }
 
 */
+    @RequestMapping(value = "/proyectos/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Proyecto>> getProyectosDeUsuario(@PathVariable("id") Long id){
+        List<Proyecto> proyectos = proyectService.getAll();
+        Optional<Usuario> usuarioOptional = userService.getById(id);
+        if(usuarioOptional.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+        }
+        return new ResponseEntity<>(proyectos.stream()
+                                        .filter(proyecto -> proyecto.incluyeUsuario(usuarioOptional.get()))
+                                        .collect(Collectors.toCollection(()-> new ArrayList<>())), HttpStatus.OK);
+    }
     @RequestMapping(value = "/proyecto/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Proyecto> getProyecto(@PathVariable("id") long id){
         Optional<Proyecto> proyect=this.proyectService.getById(id);

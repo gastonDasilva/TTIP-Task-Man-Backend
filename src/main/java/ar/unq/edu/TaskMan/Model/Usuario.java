@@ -10,13 +10,13 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private String usuario;
     private String nombre;
     private String apellido;
+    @Column(unique = true)
     private String email;
     private String password;
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private Set<Proyecto> proyectos = new HashSet<Proyecto>();
     public Usuario() {}
 
     public Usuario(String unUsuario,String unNombre,
@@ -78,29 +78,4 @@ public class Usuario {
         this.password = password;
     }
 
-    public Set<Proyecto> getProyecto() {
-        return proyectos;
-    }
-
-    public void setProyecto(Set<Proyecto> proyectos) {
-        this.proyectos = proyectos;
-    }
-
-    public void agregarProyecto(Proyecto proyecto) {
-        this.proyectos.add(proyecto);
-    }
-
-    /*public void actualizarProyectos(Proyecto proyecto) {
-        Optional<Proyecto> proyectoStream = this.proyectos.stream().filter(p ->p.getId() == proyecto.getId()).findFirst();
-        System.out.println("actualizando usuario: " + this.usuario);
-        System.out.println(proyectoStream.isPresent());
-        if (!proyectoStream.isPresent()){
-            System.out.println("no existia proyecto");
-            this.proyectos.add(proyecto);
-        }else{
-            proyectoStream.get().setMiembros(proyecto.getMiembros());
-            proyectoStream.get().setTareas(proyecto.getTareas());
-
-        }
-    }*/
 }

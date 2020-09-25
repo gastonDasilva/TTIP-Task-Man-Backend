@@ -3,6 +3,7 @@ package ar.unq.edu.TaskMan.Service;
 import ar.unq.edu.TaskMan.Model.Proyecto;
 import ar.unq.edu.TaskMan.Repositories.ProyectoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,4 +41,7 @@ public class ProyectoService {
     }
 
 
+//    public List<Proyecto> getProyectosDeUsuario(Long id) {
+//        return proyectoDAO.findAllByUserID(id);
+//    }
 }

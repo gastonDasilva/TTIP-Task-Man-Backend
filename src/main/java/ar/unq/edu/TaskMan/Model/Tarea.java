@@ -8,19 +8,20 @@ import java.time.LocalDate;
 @Entity
 public class Tarea {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
     private String descripcion;
+
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JsonIgnoreProperties("proyecto")
     public Usuario asignado;
     public Estado estado;
     public LocalDate fecha_creacion;
     public LocalDate fecha_estimada;
     public Prioridad prioridad;
 
-    public Tarea() {}
+    public Tarea() {
+    }
 
     public LocalDate getFecha_creacion() {
         return fecha_creacion;
@@ -37,27 +38,35 @@ public class Tarea {
         this.estado = Estado.CREADA;
         this.fecha_creacion = LocalDate.now();
     }
+
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getTitulo() {
         return titulo;
     }
+
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
     public String getDescripcion() {
         return descripcion;
     }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
     public Usuario getAsignado() {
         return asignado;
     }
+
     public void setAsignado(Usuario asignado) {
         this.asignado = asignado;
         this.estado = Estado.EN_PROCESO;
@@ -78,6 +87,7 @@ public class Tarea {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+
     public LocalDate getFecha_estimada() {
         return fecha_estimada;
     }
