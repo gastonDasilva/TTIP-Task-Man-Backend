@@ -78,22 +78,9 @@ public class TareaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/tarea/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Tarea> updateTask(@PathVariable("id") long id, @RequestBody Tarea task ){
-        Optional<Tarea> tarea = tareaService.getById(id);
-
-        if (tarea.isEmpty()) {
-            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarea no encontrada");
-        }
-//        tarea.setTitulo(task.getTitulo());
-//       // tarea.setAsignado(task.getAsignado());
-//        tarea.setDescripcion(task.getDescripcion());
-//        tarea.setEstado(task.getEstado());
-//        tarea.setFecha_creacion(task.getFecha_creacion());
-//        tarea.setFecha_estimada(task.getFecha_estimada());
-//        tarea.setPrioridad(task.getPrioridad());
-
-        tareaService.update(tarea.get());
-        return new ResponseEntity<>(tarea.get(), HttpStatus.OK);
+    @RequestMapping(value = "/tarea", method = RequestMethod.PUT)
+    public ResponseEntity<Tarea> updateTask(@RequestBody Tarea tarea ){
+        tareaService.update(tarea);
+        return new ResponseEntity<>(tarea, HttpStatus.OK);
     }
 }
