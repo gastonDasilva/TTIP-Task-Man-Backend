@@ -8,9 +8,10 @@ public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String tipoRol;
     @OneToOne(cascade = CascadeType.PERSIST)
     private Usuario usuarioAsignado = null;
-    private String tipoRol;
+
     public Rol(){
     }
     public Rol(String rol){
@@ -33,5 +34,13 @@ public class Rol {
 
     public Long getId() {
         return this.id;
+    }
+
+    public String getTipoRol() {
+        return tipoRol;
+    }
+
+    public void setTipoRol(String tipoRol) {
+        this.tipoRol = tipoRol;
     }
 }
