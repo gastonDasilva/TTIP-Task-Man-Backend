@@ -1,8 +1,10 @@
 package ar.unq.edu.TaskMan.Webservice;
 
 import ar.unq.edu.TaskMan.Model.Proyecto;
+import ar.unq.edu.TaskMan.Model.Rol;
 import ar.unq.edu.TaskMan.Model.Usuario;
 import ar.unq.edu.TaskMan.Service.ProyectoService;
+import ar.unq.edu.TaskMan.Service.RolService;
 import ar.unq.edu.TaskMan.Service.TareaService;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class ProyectoController {
     @Autowired
     TareaService tareaService ;
 
+    @Autowired
+    RolService rolService;
+
 
     @RequestMapping(value = "/proyectos", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<Proyecto>> getProyectos() {
@@ -41,7 +46,9 @@ public class ProyectoController {
         if(usuarioOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         }
-        proyecto.addMiembro(usuarioOptional.get());
+        Rol rol = new Rol("Propietario", usuarioOptional.get());
+        rolService.save(rol);
+        proyecto.addRol(rol);
         proyecto.setId(this.proyectService.setProyecto(proyecto));
         return new ResponseEntity<Proyecto>(proyecto, HttpStatus.OK);
     }
@@ -57,11 +64,11 @@ public class ProyectoController {
         }else {
 
             proyect.setNombre(proyecto.getNombre());
-            proyect.setMiembros(proyecto.getMiembros());
-            System.out.println(proyect.getMiembros());
+            proyect.setRoles(proyecto.getRoles());
+            System.out.println(proyect.getRoles());
             proyect.setTareas(proyecto.getTareas());
-//			proyect.getMiembros().stream().forEach(u -> u.actualizarProyectos(proyecto));
-//			proyect.getMiembros().stream().forEach(usuario -> this.userService.update(usuario));
+//			proyect.getRoles().stream().forEach(u -> u.actualizarProyectos(proyecto));
+//			proyect.getRoles().stream().forEach(usuario -> this.userService.update(usuario));
             this.proyectService.updateProyecto(proyect);
             return new ResponseEntity<Proyecto>(proyect, HttpStatus.OK);
         }
@@ -78,9 +85,9 @@ public class ProyectoController {
             return new ResponseEntity<Proyecto>(HttpStatus.NOT_FOUND);
         }else {
             proyect.setNombre(proyecto.getNombre());
-            proyect.setMiembros(proyecto.getMiembros());
+            proyect.setRoles(proyecto.getRoles());
             proyect.setTareas(proyecto.getTareas());
-            proyect.addMiembro(miembro);
+            proyect.addRol(miembro);
             miembro.agregarProyecto(proyect);
             this.proyectService.updateProyecto(proyect);
             this.userService.update(miembro);
@@ -105,7 +112,6 @@ public class ProyectoController {
         Optional<Proyecto> proyect=this.proyectService.getById(id);
         if(proyect.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         }
         else {
             return new ResponseEntity<>(proyect.get(),HttpStatus.OK);

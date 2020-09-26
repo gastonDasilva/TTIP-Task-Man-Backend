@@ -1,9 +1,8 @@
 package ar.unq.edu.TaskMan.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Proyecto {
@@ -12,24 +11,24 @@ public class Proyecto {
     private Long id;
     private String nombre;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
-    private List<Usuario> miembros = new ArrayList<Usuario>();
+    private List<Rol> rols = new ArrayList<Rol>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Tarea> tareas = new HashSet<Tarea>();
 
     public Proyecto() {}
-    public Proyecto(String nombre, Usuario usuario) {
+    public Proyecto(String nombre, Rol rol) {
         this.nombre  = nombre;
-        this.miembros.add(usuario);
+        this.rols.add(rol);
     }
 
-    public List<Usuario> getMiembros() {
-        return miembros;
+    public List<Rol> getRols() {
+        return rols;
     }
-    public void setMiembros(List<Usuario> miembros) {
-        this.miembros = miembros;
+    public void setRols(List<Rol> rols) {
+        this.rols = rols;
     }
-    public void addMiembro(Usuario usuario){
-        this.miembros.add(usuario);
+    public void addRol(Rol rol){
+        this.rols.add(rol);
     }
 
     public Long getId() {
@@ -61,6 +60,10 @@ public class Proyecto {
     }
 
     public boolean incluyeUsuario(Usuario usuario) {
-        return this.miembros.contains(usuario);
+        return this.getMiembros().contains(usuario);
+    }
+
+    public Set<Usuario> getMiembros(){
+        return this.rols.stream().map(Rol::getUsuarioAsignado).collect(Collectors.toCollection(() -> new HashSet<>()));
     }
 }
