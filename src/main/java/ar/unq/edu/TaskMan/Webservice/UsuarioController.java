@@ -53,7 +53,7 @@ public class UsuarioController {
             user.setApellido(usuario.getApellido());
             user.setEmail(usuario.getEmail());
             user.setPassword(usuario.getPassword());
-            user.setProyecto(usuario.getProyecto());
+            user.save(usuario.getProyecto());
             this.userService.update(user);
             return new ResponseEntity<Void>(HttpStatus.OK);
         }
