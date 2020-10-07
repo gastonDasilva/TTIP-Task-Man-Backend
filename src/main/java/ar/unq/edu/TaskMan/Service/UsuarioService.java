@@ -48,11 +48,11 @@ public class UsuarioService {
         System.out.println("actualizando " + user.getUsuario());
         userDAO.save(user);
     }
-
+    @Transactional
     public Optional<Usuario> getByUsuarioOEmail(String usuarioOEmail) {
         return userDAO.getByUsuarioOEmail(usuarioOEmail);
     }
-
+    @Transactional
     public void deleteAll() {
         userDAO.deleteAll();
     }
