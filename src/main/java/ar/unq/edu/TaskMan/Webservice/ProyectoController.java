@@ -1,8 +1,8 @@
 package ar.unq.edu.TaskMan.Webservice;
 
-import ar.unq.edu.TaskMan.Model.Proyecto;
-import ar.unq.edu.TaskMan.Model.Rol;
-import ar.unq.edu.TaskMan.Model.Usuario;
+import ar.unq.edu.TaskMan.Services.Proyecto;
+import ar.unq.edu.TaskMan.Services.Rol;
+import ar.unq.edu.TaskMan.Services.Usuario;
 import ar.unq.edu.TaskMan.Service.ProyectoService;
 import ar.unq.edu.TaskMan.Service.RolService;
 import ar.unq.edu.TaskMan.Service.TareaService;

@@ -1,7 +1,7 @@
 package ar.unq.edu.TaskMan.Webservice;
 
-import ar.unq.edu.TaskMan.Model.Login;
-import ar.unq.edu.TaskMan.Model.Usuario;
+import ar.unq.edu.TaskMan.Services.Login;
+import ar.unq.edu.TaskMan.Services.Usuario;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

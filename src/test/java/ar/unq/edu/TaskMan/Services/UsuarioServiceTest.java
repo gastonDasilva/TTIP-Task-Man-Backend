@@ -1,33 +1,26 @@
-package ar.unq.edu.TaskMan.Model;
+package ar.unq.edu.TaskMan.Services;
 
 import ar.unq.edu.TaskMan.Excepciones.UsuarioDuplicadoException;
-import ar.unq.edu.TaskMan.Repositories.UsuarioRepository;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
-import org.hibernate.Hibernate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UsuarioTest  {
+public class UsuarioServiceTest {
     @Autowired
     private UsuarioService usuarioService;
 
     @Before
-    public void crearUsuario(){
+    public void setUp(){
         Usuario usuario_1 = new Usuario(
                 "leadiaz",
                 "Leandro",
@@ -44,7 +37,7 @@ public class UsuarioTest  {
         usuarioService.save(usuario_2);
     }
     @After
-    public void dropAll(){
+    public void tearDown(){
         usuarioService.deleteAll();
     }
     @Test

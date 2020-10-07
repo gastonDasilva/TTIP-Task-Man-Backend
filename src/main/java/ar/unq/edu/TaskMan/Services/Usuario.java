@@ -1,9 +1,6 @@
-package ar.unq.edu.TaskMan.Model;
+package ar.unq.edu.TaskMan.Services;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 @Entity
 public class Usuario {

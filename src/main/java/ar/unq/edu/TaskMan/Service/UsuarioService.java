@@ -1,14 +1,12 @@
 package ar.unq.edu.TaskMan.Service;
 
 import ar.unq.edu.TaskMan.Excepciones.UsuarioDuplicadoException;
-import ar.unq.edu.TaskMan.Model.Usuario;
+import ar.unq.edu.TaskMan.Services.Usuario;
 import ar.unq.edu.TaskMan.Repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 

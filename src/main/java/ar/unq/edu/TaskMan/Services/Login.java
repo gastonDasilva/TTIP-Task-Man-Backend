@@ -1,4 +1,4 @@
-package ar.unq.edu.TaskMan.Model;
+package ar.unq.edu.TaskMan.Services;
 
 public class Login {
     private final String userOrEmail;

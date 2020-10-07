@@ -1,6 +1,4 @@
-package ar.unq.edu.TaskMan.Model;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+package ar.unq.edu.TaskMan.Services;
 
 import javax.persistence.*;
 import java.time.LocalDate;
