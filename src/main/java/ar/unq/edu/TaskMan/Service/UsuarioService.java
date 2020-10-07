@@ -1,11 +1,14 @@
 package ar.unq.edu.TaskMan.Service;
 
+import ar.unq.edu.TaskMan.Excepciones.UsuarioDuplicadoException;
 import ar.unq.edu.TaskMan.Model.Usuario;
 import ar.unq.edu.TaskMan.Repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,9 +23,14 @@ public class UsuarioService {
         return userDAO.findAll();
     }
 
-    @Transactional
-    public void setUser(Usuario user) {
-        userDAO.save(user);
+
+    public void save(Usuario user) throws UsuarioDuplicadoException {
+        try {
+            userDAO.save(user);
+        }catch (Exception ex){
+            throw new UsuarioDuplicadoException("El usuario o email ya esta siendo utilizado");
+        }
+
     }
     @Transactional
     public Optional<Usuario> getById(Long id) {
@@ -43,6 +51,10 @@ public class UsuarioService {
 
     public Optional<Usuario> getByUsuarioOEmail(String usuarioOEmail) {
         return userDAO.getByUsuarioOEmail(usuarioOEmail);
+    }
+
+    public void deleteAll() {
+        userDAO.deleteAll();
     }
    /* @Transactional
     public List<Usuario> search(String nombre){

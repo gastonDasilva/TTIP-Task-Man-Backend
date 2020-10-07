@@ -30,7 +30,7 @@ public class UsuarioController {
     @RequestMapping(value = "/usuario", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<Void> createUser(@RequestBody Usuario user) {
         try{
-            this.userService.setUser(user);
+            this.userService.save(user);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.IM_USED, "el usuario o email ya esta siendo utilizado");
