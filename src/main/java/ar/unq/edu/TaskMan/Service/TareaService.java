@@ -41,4 +41,8 @@ public class TareaService {
 
     @Transactional
     public Optional<List<Tarea>> getAsignadas(Long id){ return tareaDao.getAsignadas(id);}
+    @Transactional
+    public void deleteAll() {
+        tareaDao.deleteAll();
+    }
 }

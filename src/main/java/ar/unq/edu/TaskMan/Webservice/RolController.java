@@ -2,7 +2,6 @@ package ar.unq.edu.TaskMan.Webservice;
 
 import ar.unq.edu.TaskMan.Model.Proyecto;
 import ar.unq.edu.TaskMan.Model.Rol;
-import ar.unq.edu.TaskMan.Repositories.RolRepository;
 import ar.unq.edu.TaskMan.Service.ProyectoService;
 import ar.unq.edu.TaskMan.Service.RolService;
 import org.springframework.beans.factory.annotation.Autowired;
