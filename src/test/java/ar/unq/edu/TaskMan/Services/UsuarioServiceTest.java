@@ -1,6 +1,7 @@
 package ar.unq.edu.TaskMan.Services;
 
 import ar.unq.edu.TaskMan.Excepciones.UsuarioDuplicadoException;
+import ar.unq.edu.TaskMan.Model.Usuario;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import org.junit.After;
 import org.junit.Assert;

@@ -1,6 +1,6 @@
 package ar.unq.edu.TaskMan.Service;
 
-import ar.unq.edu.TaskMan.Services.Rol;
+import ar.unq.edu.TaskMan.Model.Rol;
 import ar.unq.edu.TaskMan.Repositories.RolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

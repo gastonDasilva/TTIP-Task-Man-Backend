@@ -1,6 +1,6 @@
 package ar.unq.edu.TaskMan.Repositories;
 
-import ar.unq.edu.TaskMan.Services.Usuario;
+import ar.unq.edu.TaskMan.Model.Usuario;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

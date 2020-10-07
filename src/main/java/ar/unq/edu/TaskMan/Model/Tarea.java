@@ -1,4 +1,4 @@
-package ar.unq.edu.TaskMan.Services;
+package ar.unq.edu.TaskMan.Model;
 
 import javax.persistence.*;
 import java.time.LocalDate;

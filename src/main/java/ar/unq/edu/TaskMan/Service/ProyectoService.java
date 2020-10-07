@@ -1,6 +1,6 @@
 package ar.unq.edu.TaskMan.Service;
 
-import ar.unq.edu.TaskMan.Services.Proyecto;
+import ar.unq.edu.TaskMan.Model.Proyecto;
 import ar.unq.edu.TaskMan.Repositories.ProyectoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

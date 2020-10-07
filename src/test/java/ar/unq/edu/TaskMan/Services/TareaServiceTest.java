@@ -1,5 +1,7 @@
 package ar.unq.edu.TaskMan.Services;
 
+import ar.unq.edu.TaskMan.Model.Tarea;
+import ar.unq.edu.TaskMan.Model.Usuario;
 import ar.unq.edu.TaskMan.Service.TareaService;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import org.junit.After;

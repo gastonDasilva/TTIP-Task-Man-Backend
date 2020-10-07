@@ -1,6 +1,6 @@
 package ar.unq.edu.TaskMan.Repositories;
 
-import ar.unq.edu.TaskMan.Services.Proyecto;
+import ar.unq.edu.TaskMan.Model.Proyecto;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

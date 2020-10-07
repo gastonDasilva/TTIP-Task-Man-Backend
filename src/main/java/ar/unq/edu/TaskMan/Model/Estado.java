@@ -1,4 +1,4 @@
-package ar.unq.edu.TaskMan.Services;
+package ar.unq.edu.TaskMan.Model;
 
 public enum Estado {
     CREADA,
