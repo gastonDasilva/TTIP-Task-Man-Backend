@@ -13,4 +13,6 @@ public interface TareaRepository<T extends Tarea> extends CrudRepository<T, Inte
     Iterable<T> findAll();
     @Query(value = "select * from tarea where tarea.asignado_id = ?1", nativeQuery = true)
     Optional<List<Tarea>>getAsignadas(Long id);
+    @Query(value = "select * from tarea where tarea.titulo = ?1 limit 1", nativeQuery = true)
+    Optional<Tarea> getByTitulo(String titulo);
 }

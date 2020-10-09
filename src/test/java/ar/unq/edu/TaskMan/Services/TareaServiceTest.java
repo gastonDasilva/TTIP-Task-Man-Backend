@@ -69,8 +69,7 @@ public class TareaServiceTest {
                                                         LocalDate.of(2020,10,13),
                                                         Prioridad.BAJA);
         TAREA_SERVICE.save(tareaCompleja);
-        TareaCompleja tarea = (TareaCompleja) TAREA_SERVICE.getById(Long.valueOf(4)).get();
-//        Assert.assertEquals(tarea.getFecha_estimada(),"2020-10-13");
+        TareaCompleja tarea = (TareaCompleja) TAREA_SERVICE.getByTitulo("Tarea compleja").get();
         Assert.assertEquals(tarea.getFecha_estimada().getYear(), 2020);
         Assert.assertEquals(tarea.getFecha_estimada().getMonthValue(), 10);
         Assert.assertEquals(tarea.getFecha_estimada().getDayOfMonth(), 13);

@@ -4,11 +4,13 @@ import ar.unq.edu.TaskMan.Model.Estado;
 import ar.unq.edu.TaskMan.Model.Prioridad;
 
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.util.Date;
 
-@Entity
+@Entity(name = "TareaCompleja")
+@DiscriminatorValue("TareaCompleja")
 public class TareaCompleja extends Tarea {
     private LocalDate fecha_creacion;
     private LocalDate fecha_estimada;

@@ -66,4 +66,8 @@ public class UsuarioServiceTest {
                 "123456");
         usuarioService.save(usuario_2);
     }
+    @Test
+    public void getTareasAsignadas(){
+
+    }
 }
