@@ -1,9 +1,13 @@
 package ar.unq.edu.TaskMan.Services;
 
-import ar.unq.edu.TaskMan.Model.Tarea;
+import ar.unq.edu.TaskMan.Model.Prioridad;
+import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
+import ar.unq.edu.TaskMan.Model.Tarea.TareaCompleja;
+import ar.unq.edu.TaskMan.Model.Tarea.TareaSimple;
 import ar.unq.edu.TaskMan.Model.Usuario;
 import ar.unq.edu.TaskMan.Service.TareaService;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -34,7 +41,7 @@ public class TareaServiceTest {
                 "123456");
         USUARIO_SERVICE.save(usuario_1);
 
-        Tarea tarea = new Tarea("Test", "Testear los servicios");
+        Tarea tarea = new TareaSimple("Test", "Testear los servicios");
         TAREA_SERVICE.save(tarea);
     }
     @After
@@ -54,5 +61,17 @@ public class TareaServiceTest {
         TAREA_SERVICE.update(tarea);
         Usuario usuario_updateado = TAREA_SERVICE.getById(Long.valueOf(1)).get().getAsignado();
         Assert.assertEquals(usuario_updateado.getUsuario(),"leadiaz" );
+    }
+    @Test
+    public void crearTareaConFechaEstimada(){
+        Tarea tareaCompleja = new TareaCompleja("Tarea compleja",
+                                            "Test de tarea con fecha estimada",
+                                                        LocalDate.of(2020,10,13),
+                                                        Prioridad.BAJA);
+        TAREA_SERVICE.save(tareaCompleja);
+        TareaCompleja tarea = (TareaCompleja) TAREA_SERVICE.getByTitulo("Tarea compleja").get();
+        Assert.assertEquals(tarea.getFecha_estimada().getYear(), 2020);
+        Assert.assertEquals(tarea.getFecha_estimada().getMonthValue(), 10);
+        Assert.assertEquals(tarea.getFecha_estimada().getDayOfMonth(), 13);
     }
 }

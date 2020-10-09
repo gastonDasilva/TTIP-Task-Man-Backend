@@ -4,5 +4,6 @@ public enum Estado {
     CREADA,
     EN_PROCESO,
     CANCELADA,
-    TERMINADA
+    TERMINADA,
+    CRITICA
 }

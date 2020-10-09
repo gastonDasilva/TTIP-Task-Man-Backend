@@ -2,7 +2,7 @@ package ar.unq.edu.TaskMan.Webservice;
 
 import ar.unq.edu.TaskMan.Model.Estado;
 import ar.unq.edu.TaskMan.Model.Proyecto;
-import ar.unq.edu.TaskMan.Model.Tarea;
+import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
 import ar.unq.edu.TaskMan.Service.ProyectoService;
 import ar.unq.edu.TaskMan.Service.TareaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +44,7 @@ public class TareaController {
     }
     @RequestMapping(value = "/tareas/{idUsuario}", method = RequestMethod.GET)
     public ResponseEntity<List<Tarea>> getAllUsuario(@PathVariable ("idUsuario") Long idUsuario){
-        Optional<List<Tarea>> tareas = this.tareaService.getAsignadas(idUsuario);
-        if(tareas.isEmpty()){
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(tareas.get(), HttpStatus.OK);
+        return new ResponseEntity<>(this.tareaService.getAsignadas(idUsuario), HttpStatus.OK);
     }
     @RequestMapping(value = "/tarea/{idProyecto}", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Tarea> create(@RequestBody Tarea tarea, @PathVariable ("idProyecto") long idProyecto) throws Exception{

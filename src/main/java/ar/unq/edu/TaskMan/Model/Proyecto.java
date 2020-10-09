@@ -1,5 +1,7 @@
 package ar.unq.edu.TaskMan.Model;
 
+import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
+
 import javax.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;

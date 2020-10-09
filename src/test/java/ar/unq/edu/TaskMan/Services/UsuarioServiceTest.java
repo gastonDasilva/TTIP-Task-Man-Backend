@@ -1,7 +1,12 @@
 package ar.unq.edu.TaskMan.Services;
 
 import ar.unq.edu.TaskMan.Excepciones.UsuarioDuplicadoException;
+import ar.unq.edu.TaskMan.Model.Prioridad;
+import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
+import ar.unq.edu.TaskMan.Model.Tarea.TareaCompleja;
+import ar.unq.edu.TaskMan.Model.Tarea.TareaSimple;
 import ar.unq.edu.TaskMan.Model.Usuario;
+import ar.unq.edu.TaskMan.Service.TareaService;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import org.junit.After;
 import org.junit.Assert;
@@ -13,12 +18,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDate;
+
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UsuarioServiceTest {
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private TareaService tareaService;
 
     @Before
     public void setUp(){
@@ -65,5 +74,22 @@ public class UsuarioServiceTest {
                 "leadiaz94@gmail.com",
                 "123456");
         usuarioService.save(usuario_2);
+    }
+    @Test
+    public void getTareasAsignadas(){
+        Usuario usuario = usuarioService.getByUsuarioOEmail("leadiaz").get();
+        Tarea tarea = new TareaSimple("Test", "Testear los servicios");
+        tareaService.save(tarea);
+        tarea.setAsignado(usuario);
+        tareaService.update(tarea);
+        Tarea tareaCompleja = new TareaCompleja("Tarea compleja",
+                "Test de tarea con fecha estimada",
+                LocalDate.of(2020,10,13),
+                Prioridad.BAJA);
+        tareaService.save(tareaCompleja);
+        tareaCompleja.setAsignado(usuario);
+        tareaService.update(tareaCompleja);
+
+        Assert.assertEquals(tareaService.getAsignadas(usuario.getId()).size(), 2 );
     }
 }
