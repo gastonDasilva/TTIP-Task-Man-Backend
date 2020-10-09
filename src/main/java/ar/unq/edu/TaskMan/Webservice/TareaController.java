@@ -44,11 +44,7 @@ public class TareaController {
     }
     @RequestMapping(value = "/tareas/{idUsuario}", method = RequestMethod.GET)
     public ResponseEntity<List<Tarea>> getAllUsuario(@PathVariable ("idUsuario") Long idUsuario){
-        Optional<List<Tarea>> tareas = this.tareaService.getAsignadas(idUsuario);
-        if(tareas.isEmpty()){
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(tareas.get(), HttpStatus.OK);
+        return new ResponseEntity<>(this.tareaService.getAsignadas(idUsuario), HttpStatus.OK);
     }
     @RequestMapping(value = "/tarea/{idProyecto}", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Tarea> create(@RequestBody Tarea tarea, @PathVariable ("idProyecto") long idProyecto) throws Exception{

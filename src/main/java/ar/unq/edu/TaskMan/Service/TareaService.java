@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,10 @@ public class TareaService {
     }
 
     @Transactional
-    public Optional<List<Tarea>> getAsignadas(Long id){ return tareaDao.getAsignadas(id);}
+    public List<Tarea> getAsignadas(Long id){
+        Optional<List<Tarea>> tareas = tareaDao.getAsignadas(id);
+        return tareas.isEmpty() ? new ArrayList<>() : tareas.get();
+    }
     @Transactional
     public void deleteAll() {
         tareaDao.deleteAll();

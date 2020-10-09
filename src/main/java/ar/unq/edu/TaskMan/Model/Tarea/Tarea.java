@@ -16,7 +16,7 @@ public abstract class Tarea {
     private String titulo;
     private String descripcion;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private Usuario asignado;
     private Estado estado;
 
