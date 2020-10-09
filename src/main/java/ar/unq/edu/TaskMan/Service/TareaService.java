@@ -1,6 +1,7 @@
 package ar.unq.edu.TaskMan.Service;
 
-import ar.unq.edu.TaskMan.Model.Tarea;
+import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
+import ar.unq.edu.TaskMan.Model.Tarea.TareaCompleja;
 import ar.unq.edu.TaskMan.Repositories.TareaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,17 +13,35 @@ import java.util.Optional;
 @Service
 public class TareaService {
     @Autowired
-    private TareaRepository tareaDao;
+    private TareaRepository<Tarea> tareaDao;
+    @Autowired
+    private TareaRepository<TareaCompleja> tareaComplejaTareaRepository;
 
-    @Transactional
     public void save(Tarea task) {
-        tareaDao.save(task);
+        try{
+            tareaDao.save( task);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
+//    public void save(TareaCompleja task) {
+//        try{
+//            tareaComplejaTareaRepository.save( task);
+//        }catch (Exception ex){
+//            System.out.println(ex.getMessage());
+//        }
+//
+//    }
 
     @Transactional
     public void update(Tarea task) {
         tareaDao.save(task);
     }
+//    @Transactional
+//    public void update(TareaCompleja task) {
+//        tareaComplejaTareaRepository.save(task);
+//    }
 
     @Transactional
     public void delete(Long id) {
@@ -36,7 +55,7 @@ public class TareaService {
 
     @Transactional
     public List<Tarea> getAll() {
-        return tareaDao.findAll();
+        return (List<Tarea>) tareaDao.findAll();
     }
 
     @Transactional

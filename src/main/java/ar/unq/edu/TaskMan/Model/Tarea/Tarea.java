@@ -1,32 +1,26 @@
-package ar.unq.edu.TaskMan.Model;
+package ar.unq.edu.TaskMan.Model.Tarea;
+
+import ar.unq.edu.TaskMan.Model.Estado;
+import ar.unq.edu.TaskMan.Model.Usuario;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-public class Tarea {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Tarea {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     private String titulo;
     private String descripcion;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    public Usuario asignado;
-    public Estado estado;
-    public LocalDate fecha_creacion;
-    public LocalDate fecha_estimada;
-    public Prioridad prioridad;
+    private Usuario asignado;
+    private Estado estado;
+
 
     public Tarea() {
-    }
-
-    public LocalDate getFecha_creacion() {
-        return fecha_creacion;
-    }
-
-    public void setFecha_creacion(LocalDate fecha_creacion) {
-        this.fecha_creacion = fecha_creacion;
     }
 
     public Tarea(String titulo, String descripcion) {
@@ -34,9 +28,7 @@ public class Tarea {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.estado = Estado.CREADA;
-        this.fecha_creacion = LocalDate.now();
     }
-
     public Long getId() {
         return id;
     }
@@ -70,14 +62,6 @@ public class Tarea {
         this.estado = Estado.EN_PROCESO;
     }
 
-    public Prioridad getPrioridad() {
-        return prioridad;
-    }
-
-    public void setPrioridad(Prioridad prioridad) {
-        this.prioridad = prioridad;
-    }
-
     public Estado getEstado() {
         return estado;
     }
@@ -85,13 +69,4 @@ public class Tarea {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
-
-    public LocalDate getFecha_estimada() {
-        return fecha_estimada;
-    }
-
-    public void setFecha_estimada(LocalDate fecha_estimada) {
-        this.fecha_estimada = fecha_estimada;
-    }
-
 }

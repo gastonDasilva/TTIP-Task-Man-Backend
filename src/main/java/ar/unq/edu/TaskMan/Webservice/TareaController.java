@@ -2,7 +2,7 @@ package ar.unq.edu.TaskMan.Webservice;
 
 import ar.unq.edu.TaskMan.Model.Estado;
 import ar.unq.edu.TaskMan.Model.Proyecto;
-import ar.unq.edu.TaskMan.Model.Tarea;
+import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
 import ar.unq.edu.TaskMan.Service.ProyectoService;
 import ar.unq.edu.TaskMan.Service.TareaService;
 import org.springframework.beans.factory.annotation.Autowired;
