@@ -48,7 +48,9 @@ public class UsuarioServiceTest {
     }
     @After
     public void tearDown(){
+        tareaService.deleteAll();
         usuarioService.deleteAll();
+
     }
     @Test
     public void getAllUsers(){
@@ -91,5 +93,14 @@ public class UsuarioServiceTest {
         tareaService.update(tareaCompleja);
 
         Assert.assertEquals(tareaService.getAsignadas(usuario.getId()).size(), 2 );
+    }
+    @Test
+    public void updateUser(){
+        Usuario usuario = usuarioService.getByUsuarioOEmail("leadiaz").get();
+        usuario.setNombre("Ezequiel");
+        usuarioService.update(usuario);
+//        usuarioService.update(usuario);
+        Assert.assertEquals(usuarioService.getByUsuarioOEmail("leadiaz").get().getNombre(), "Ezequiel" );
+
     }
 }

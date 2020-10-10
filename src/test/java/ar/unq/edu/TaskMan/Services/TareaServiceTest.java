@@ -56,10 +56,10 @@ public class TareaServiceTest {
     @Test
     public void asignarUsuario(){
         Usuario usuario = USUARIO_SERVICE.getByUsuarioOEmail("leadiaz").get();
-        Tarea tarea = TAREA_SERVICE.getById(Long.valueOf(1)).get();
+        Tarea tarea = TAREA_SERVICE.getByTitulo("Test").get();
         tarea.setAsignado(usuario);
         TAREA_SERVICE.update(tarea);
-        Usuario usuario_updateado = TAREA_SERVICE.getById(Long.valueOf(1)).get().getAsignado();
+        Usuario usuario_updateado = TAREA_SERVICE.getByTitulo("Test").get().getAsignado();
         Assert.assertEquals(usuario_updateado.getUsuario(),"leadiaz" );
     }
     @Test

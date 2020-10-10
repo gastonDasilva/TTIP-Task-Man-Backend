@@ -6,6 +6,7 @@ import ar.unq.edu.TaskMan.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,19 +29,18 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/usuario", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Void> createUser(@RequestBody Usuario user) {
+    public ResponseEntity<Usuario> createUser(@RequestBody Usuario user) {
         try{
             this.userService.save(user);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(user,HttpStatus.OK);
         }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.IM_USED, "el usuario o email ya esta siendo utilizado");
+            throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "el usuario o email ya esta siendo utilizado", e);
         }
 
 
     }
 
-    @CrossOrigin
-    @PutMapping("/usuario/actualizarUsuario/{id}")
+    @RequestMapping(value = "/usuario/actualizarUsuario/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Usuario updateUsuarioData(@RequestBody Usuario usuario, @PathVariable Long id) {
         /*Actualizo los datos del usuario.*/
         try{

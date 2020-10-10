@@ -42,10 +42,15 @@ public class UsuarioService {
 
 
     @Transactional
-    public Usuario update(Usuario user) throws UsuarioDuplicadoException {
+    public Usuario update(Usuario user){
         System.out.println("actualizando " + user.getUsuario());
-        userDAO.save(user);
-        return  userDAO.getByUsername(user.getUsuario()).get();
+        userDAO.update(user.getId(),
+                user.getUsuario(),
+                user.getNombre(),
+                user.getApellido(),
+                user.getEmail(),
+                user.getPassword());
+        return  userDAO.getByUsuarioOEmail(user.getUsuario()).get();
     }
     @Transactional
     public Optional<Usuario> getByUsuarioOEmail(String usuarioOEmail) {
