@@ -48,7 +48,9 @@ public class UsuarioServiceTest {
     }
     @After
     public void tearDown(){
+        tareaService.deleteAll();
         usuarioService.deleteAll();
+
     }
     @Test
     public void getAllUsers(){

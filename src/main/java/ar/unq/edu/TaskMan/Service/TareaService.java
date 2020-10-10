@@ -20,7 +20,7 @@ public class TareaService {
         tareaDao.save( task);
     }
     @Transactional
-    public void update(Tarea task) {;
+    public void update(Tarea task) {
         tareaDao.save(task);
     }
     @Transactional
