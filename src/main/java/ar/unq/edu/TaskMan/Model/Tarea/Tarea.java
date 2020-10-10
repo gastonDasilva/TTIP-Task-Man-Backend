@@ -2,13 +2,20 @@ package ar.unq.edu.TaskMan.Model.Tarea;
 
 import ar.unq.edu.TaskMan.Model.Estado;
 import ar.unq.edu.TaskMan.Model.Usuario;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import javax.persistence.Id;
+
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "Tarea_Type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "type")
+@JsonSubTypes({ @JsonSubTypes.Type(value = TareaSimple.class, name = "TareaSimple"),
+                @JsonSubTypes.Type(value = TareaCompleja.class, name = "TareaCompleja")})
 public abstract class Tarea {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
