@@ -3,6 +3,8 @@ package ar.unq.edu.TaskMan.Webservice;
 import ar.unq.edu.TaskMan.Model.Estado;
 import ar.unq.edu.TaskMan.Model.Proyecto;
 import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
+import ar.unq.edu.TaskMan.Model.Tarea.TareaCompleja;
+import ar.unq.edu.TaskMan.Model.Tarea.TareaSimple;
 import ar.unq.edu.TaskMan.Service.ProyectoService;
 import ar.unq.edu.TaskMan.Service.TareaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +56,9 @@ public class TareaController {
             throw  new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No existe el proyecto");
         }
         else {
+            if(tarea instanceof TareaCompleja){
+                ((TareaCompleja) tarea).setFecha_creacion(LocalDate.now());
+            }
             tarea.setEstado(Estado.CREADA);
             this.tareaService.save(tarea);
             proyectoOptional.get().addTarea(tarea);
