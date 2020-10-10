@@ -38,26 +38,30 @@ public class UsuarioController {
 
 
     }
-    /*@RequestMapping(value = "/usuario/{id}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity<Void> updateUser(@PathVariable("id") long id,@RequestBody Usuario usuario){
-        System.out.println(usuario.getNombre());
-        Usuario user= userService.getById(id);
-        System.out.println("peticion de put, " + user);
-        if(user == null) {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }else {
-            System.out.println(usuario.getUsuario());
-            System.out.println(usuario.getProyecto());
-            user.setUsuario(usuario.getUsuario());
-            user.setNombre(usuario.getNombre());
-            user.setApellido(usuario.getApellido());
-            user.setEmail(usuario.getEmail());
-            user.setPassword(usuario.getPassword());
-            user.save(usuario.getProyecto());
-            this.userService.update(user);
-            return new ResponseEntity<Void>(HttpStatus.OK);
+
+    @CrossOrigin
+    @PutMapping("/usuario/actualizarUsuario/{id}")
+    public Usuario updateUsuarioData(@RequestBody Usuario usuario, @PathVariable Long id) {
+        /*Actualizo los datos del usuario.*/
+        try{
+        return  userService.update(usuario);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.IM_USED, "el usuario o email ya esta siendo utilizado");
         }
-    }*/
+    }
+
+    @RequestMapping(value = "/usuario/{id}", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity<Void> updateUser(@PathVariable("id") long id,@RequestBody Usuario usuario){
+
+
+        try{
+            System.out.println(usuario.getNombre());
+            userService.update(usuario);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.IM_USED, "el usuario o email ya esta siendo utilizado");
+        }
+    }
 
     /*@RequestMapping(value = "/usuario/buscar", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<Usuario>> searchUser(@RequestBody String user) {
