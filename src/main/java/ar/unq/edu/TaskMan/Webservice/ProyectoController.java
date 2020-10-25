@@ -119,15 +119,16 @@ public class ProyectoController {
         }
     }
 
-    /*@RequestMapping(value = "/proyecto/{id}", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(value = "/proyecto/{id}", method = RequestMethod.DELETE, consumes = "application/json")
     public ResponseEntity<Void> eliminarProyecto(@PathVariable("id") long id){
-        Proyecto proyecto = this.proyectService.getById(id);
-        if (proyecto == null){
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        Optional<Proyecto> proyecto = this.proyectService.getById(id);
+        if (proyecto.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proyecto no encontrado");
         }
         else{
-            proyecto.getTareas().forEach(tarea -> this.tareaService.delete(tarea.getId()));
+            proyecto.get().getTareas().forEach(tarea -> this.tareaService.delete(tarea.getId()));
+            this.proyectService.delete(proyecto.get().getId());
             return new ResponseEntity<Void>(HttpStatus.OK);
         }
-    }*/
+    }
 }
