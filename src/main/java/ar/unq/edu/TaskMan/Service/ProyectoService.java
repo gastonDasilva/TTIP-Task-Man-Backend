@@ -13,13 +13,15 @@ import java.util.Optional;
 public class ProyectoService {
     @Autowired
     private ProyectoRepository proyectoDAO;
+    @Autowired
+    private TareaService tareaService;
 
     @Transactional
     public List<Proyecto> getAll(){
         return proyectoDAO.findAll();
     }
     @Transactional
-    public long setProyecto(Proyecto proyectoNuevo){
+    public long save(Proyecto proyectoNuevo){
 
         return (proyectoDAO.save(proyectoNuevo)).getId();
     }
@@ -36,7 +38,9 @@ public class ProyectoService {
 
     @Transactional
     public void delete(Long id) {
-        proyectoDAO.delete(this.getById(id).get());
+        Proyecto proyecto = this.getById(id).get();
+        proyecto.getTareas().forEach(tarea -> tareaService.delete(tarea.getId()));
+        proyectoDAO.delete(proyecto);
     }
 
 

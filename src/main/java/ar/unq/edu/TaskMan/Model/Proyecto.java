@@ -14,7 +14,7 @@ public class Proyecto {
     private String nombre;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     private List<Rol> rols = new ArrayList<Rol>();
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Tarea> tareas = new HashSet<Tarea>();
 
     public Proyecto() {}

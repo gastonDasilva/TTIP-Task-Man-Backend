@@ -49,7 +49,7 @@ public class ProyectoController {
         Rol rol = new Rol("Propietario", usuarioOptional.get());
         rolService.save(rol);
         proyecto.addRol(rol);
-        proyecto.setId(this.proyectService.setProyecto(proyecto));
+        proyecto.setId(this.proyectService.save(proyecto));
         return new ResponseEntity<Proyecto>(proyecto, HttpStatus.OK);
     }
 
@@ -126,8 +126,7 @@ public class ProyectoController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proyecto no encontrado");
         }
         else{
-            proyecto.get().getTareas().forEach(tarea -> this.tareaService.delete(tarea.getId()));
-            this.proyectService.delete(proyecto.get().getId());
+//            this.proyectService.delete(proyecto.get().getId());
             return new ResponseEntity<Void>(HttpStatus.OK);
         }
     }
