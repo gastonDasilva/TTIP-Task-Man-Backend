@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT})
+@CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class ProyectoController {
     @Autowired
     ProyectoService proyectService;
@@ -126,7 +126,7 @@ public class ProyectoController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proyecto no encontrado");
         }
         else{
-//            this.proyectService.delete(proyecto.get().getId());
+            this.proyectService.delete(proyecto.get().getId());
             return new ResponseEntity<Void>(HttpStatus.OK);
         }
     }
