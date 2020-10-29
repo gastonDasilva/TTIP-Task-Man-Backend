@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT})
+@CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class ProyectoController {
     @Autowired
     ProyectoService proyectService;
@@ -49,7 +49,7 @@ public class ProyectoController {
         Rol rol = new Rol("Propietario", usuarioOptional.get());
         rolService.save(rol);
         proyecto.addRol(rol);
-        proyecto.setId(this.proyectService.setProyecto(proyecto));
+        proyecto.setId(this.proyectService.save(proyecto));
         return new ResponseEntity<Proyecto>(proyecto, HttpStatus.OK);
     }
 
@@ -119,15 +119,15 @@ public class ProyectoController {
         }
     }
 
-    /*@RequestMapping(value = "/proyecto/{id}", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(value = "/proyecto/{id}", method = RequestMethod.DELETE, consumes = "application/json")
     public ResponseEntity<Void> eliminarProyecto(@PathVariable("id") long id){
-        Proyecto proyecto = this.proyectService.getById(id);
-        if (proyecto == null){
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        Optional<Proyecto> proyecto = this.proyectService.getById(id);
+        if (proyecto.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proyecto no encontrado");
         }
         else{
-            proyecto.getTareas().forEach(tarea -> this.tareaService.delete(tarea.getId()));
+            this.proyectService.delete(proyecto.get().getId());
             return new ResponseEntity<Void>(HttpStatus.OK);
         }
-    }*/
+    }
 }
