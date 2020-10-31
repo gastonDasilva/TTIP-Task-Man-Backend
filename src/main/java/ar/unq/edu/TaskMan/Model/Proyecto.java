@@ -52,14 +52,15 @@ public class Proyecto {
     }
 
     public List<Tarea> getTareas() {
-        return tareas;
+        List<Tarea> sortTareas = this.tareas;
+        Collections.sort(sortTareas);
+        return sortTareas;
     }
     public void setTareas(ArrayList<Tarea> tareas) {
         this.tareas = tareas;
     }
     public void addTarea(Tarea tarea) {
         this.tareas.add(tarea);
-        Collections.sort(tareas);
     }
 
     public void eliminarTarea(Tarea tarea) {

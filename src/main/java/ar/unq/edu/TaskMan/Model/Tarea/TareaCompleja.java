@@ -70,9 +70,9 @@ public class TareaCompleja extends Tarea {
     public int compareTo(Tarea tarea) {
         if(tarea.isCompleja()){
             TareaCompleja tareaCompleja = (TareaCompleja) tarea;
-            int result = tareaCompleja.getPrioridad().compareTo(this.getPrioridad());
+            int result = tareaCompleja.getEstado().compareTo(this.getEstado());
             if(result == 0){
-                return tareaCompleja.getEstado().compareTo(this.getEstado());
+                return tareaCompleja.getPrioridad().compareTo(this.getPrioridad());
             }else {
                 return result;
             }
