@@ -85,9 +85,9 @@ public class UsuarioController {
 //
 //	}
 
-    @RequestMapping(value = "/usuario/buscar/{username}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<Usuario> getUserByUsername(@PathVariable("username") String user) {
-        Optional<Usuario> usuarioOptional = this.userService.getByUsername(user);
+    @RequestMapping(value = "/usuario/buscar/{usernameORemail}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Usuario> getUserByUsernameoEmail(@PathVariable("usernameORemail") String user) {
+        Optional<Usuario> usuarioOptional = this.userService.getByUsuarioOEmail(user);
         if(usuarioOptional.isEmpty()) {
             throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         }

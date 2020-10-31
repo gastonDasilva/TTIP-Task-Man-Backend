@@ -74,28 +74,19 @@ public class ProyectoController {
         }
 
     }
-/*
-    @RequestMapping(value = "/proyecto/add={id}", method = RequestMethod.PUT, consumes = "application/json")
-    public ResponseEntity<Proyecto> agregarMiembro(@PathVariable("id") long id, @RequestBody Proyecto proyecto){
+*/
+    @RequestMapping(value = "/proyecto/{UserNameOrEmail}", method = RequestMethod.PUT, consumes = "application/json")
+    public ResponseEntity<Proyecto> agregarMiembro(@PathVariable("UserNameOrEmail") String userNameOrEmail, @RequestBody Proyecto proyecto){
 
-        Proyecto proyect = this.proyectService.getById(proyecto.getId());
-        Usuario miembro = this.userService.getById(id);
-        System.out.println("usuario Agregado " + miembro.getNombre());
-        if(proyect == null) {
+        Proyecto proyectoActualizaco = this.proyectService.agregarMiembroAUnProyecto(proyecto,userNameOrEmail);
+        if(proyectoActualizaco == null) {
             return new ResponseEntity<Proyecto>(HttpStatus.NOT_FOUND);
         }else {
-            proyect.setNombre(proyecto.getNombre());
-            proyect.setRoles(proyecto.getRoles());
-            proyect.setTareas(proyecto.getTareas());
-            proyect.addRol(miembro);
-            miembro.agregarProyecto(proyect);
-            this.proyectService.updateProyecto(proyect);
-            this.userService.update(miembro);
-            return new ResponseEntity<Proyecto>(proyect, HttpStatus.OK);
+            return new ResponseEntity<Proyecto>(proyectoActualizaco, HttpStatus.OK);
         }
     }
 
-*/
+
     @RequestMapping(value = "/proyectos/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Proyecto>> getProyectosDeUsuario(@PathVariable("id") Long id){
         List<Proyecto> proyectos = proyectService.getAll();
