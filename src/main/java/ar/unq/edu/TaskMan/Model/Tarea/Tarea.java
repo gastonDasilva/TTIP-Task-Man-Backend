@@ -1,6 +1,7 @@
 package ar.unq.edu.TaskMan.Model.Tarea;
 
 import ar.unq.edu.TaskMan.Model.Estado;
+import ar.unq.edu.TaskMan.Model.Prioridad;
 import ar.unq.edu.TaskMan.Model.Usuario;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -16,7 +17,7 @@ import javax.persistence.Id;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = TareaSimple.class, name = "TareaSimple"),
                 @JsonSubTypes.Type(value = TareaCompleja.class, name = "TareaCompleja")})
-public abstract class Tarea {
+public abstract class Tarea implements Comparable<Tarea>{
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
@@ -77,4 +78,6 @@ public abstract class Tarea {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+    public abstract boolean isCompleja();
+
 }

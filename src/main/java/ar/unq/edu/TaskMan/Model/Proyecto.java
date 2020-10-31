@@ -12,10 +12,11 @@ public class Proyecto {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private String nombre;
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rols")
     private List<Rol> rols = new ArrayList<Rol>();
     @OneToMany(fetch = FetchType.EAGER)
-    private Set<Tarea> tareas = new HashSet<Tarea>();
+    private List<Tarea> tareas = new ArrayList<>();
 
     public Proyecto() {}
     public Proyecto(String nombre, Rol rol) {
@@ -49,13 +50,16 @@ public class Proyecto {
         this.nombre = nombre;
     }
 
-    public Set<Tarea> getTareas() {
+    public List<Tarea> getTareas() {
         return tareas;
     }
-    public void setTareas(Set<Tarea> tareas) {
+    public void setTareas(ArrayList<Tarea> tareas) {
         this.tareas = tareas;
     }
-    public void addTarea(Tarea tarea) {this.tareas.add(tarea);}
+    public void addTarea(Tarea tarea) {
+        this.tareas.add(tarea);
+        Collections.sort(tareas);
+    }
 
     public void eliminarTarea(Tarea tarea) {
         tareas.removeIf(tarea1 -> tarea1.getId().equals(tarea.getId()));
