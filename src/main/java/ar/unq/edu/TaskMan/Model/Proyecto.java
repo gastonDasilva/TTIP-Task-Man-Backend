@@ -4,6 +4,7 @@ import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Entity
@@ -67,5 +68,19 @@ public class Proyecto {
 
     public Set<Usuario> getMiembros(){
         return this.rols.stream().map(Rol::getUsuarioAsignado).collect(Collectors.toCollection(() -> new HashSet<>()));
+    }
+
+    public  boolean verificarMiembroAAgregar(Usuario usuarioAAgregar){
+        /*Verifico si el usuario que voy a agregar como miembro ya esta incluido en el SET de miembros.*/
+        boolean res = false;
+        Iterator<Usuario> it = getMiembros().iterator();
+        while(it.hasNext()){
+            Usuario user = (Usuario) it.next();
+            if(user.getId().equals(usuarioAAgregar.getId())) {
+                res =true;
+                break;
+            }
+        }
+        return res;
     }
 }
