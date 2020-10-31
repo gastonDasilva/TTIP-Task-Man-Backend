@@ -56,7 +56,29 @@ public class TareaCompleja extends Tarea {
         }
         return super.getEstado();
     }
+
+    @Override
+    public boolean isCompleja() {
+        return true;
+    }
+
     private Boolean esCritica(){
         return false;
     }
+
+    @Override
+    public int compareTo(Tarea tarea) {
+        if(tarea.isCompleja()){
+            TareaCompleja tareaCompleja = (TareaCompleja) tarea;
+            int result = tareaCompleja.getEstado().compareTo(this.getEstado());
+            if(result == 0){
+                return tareaCompleja.getPrioridad().compareTo(this.getPrioridad());
+            }else {
+                return result;
+            }
+        }else{
+            return -1;
+        }
+    }
+
 }

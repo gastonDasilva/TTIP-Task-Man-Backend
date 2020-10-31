@@ -1,9 +1,9 @@
 package ar.unq.edu.TaskMan.Model;
 
 public enum Estado {
-    CREADA,
-    EN_PROCESO,
     CANCELADA,
     TERMINADA,
+    CREADA,
+    EN_PROCESO,
     CRITICA
 }
