@@ -1,5 +1,6 @@
 package ar.unq.edu.TaskMan.Controllers;
 
+import ar.unq.edu.TaskMan.Model.Proyecto;
 import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
 import ar.unq.edu.TaskMan.Model.Tarea.TareaSimple;
 import ar.unq.edu.TaskMan.Service.ProyectoService;
@@ -8,6 +9,9 @@ import ar.unq.edu.TaskMan.Service.TareaService;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import ar.unq.edu.TaskMan.Webservice.ProyectoController;
 import ar.unq.edu.TaskMan.Webservice.TareaController;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -65,6 +70,36 @@ public class TareaControllerTest {
         mvc.perform(get("/tareas/{idUsuario}", 1).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
+
+    }
+    @Test
+    public void testCrearTarea() throws Exception{
+        Tarea tarea = new TareaSimple("Test", "Una tarea de prueba");
+        Proyecto proyecto = new Proyecto();
+        proyecto.setNombre("Test controller");
+        when(proyectoService.getById(Long.valueOf(1))).thenReturn(Optional.of(proyecto));
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson=ow.writeValueAsString(tarea);
+
+        mvc.perform(post("/tarea/{idProyecto}", 1).contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(status().isOk());
+
+    }
+    @Test
+    public void testCrearTareaError() throws Exception{
+        Tarea tarea = new TareaSimple("Test", "Una tarea de prueba");
+        when(proyectoService.getById(Long.valueOf(1))).thenReturn(Optional.empty());
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson=ow.writeValueAsString(tarea);
+
+        mvc.perform(post("/tarea/{idProyecto}", 1).contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(status().isNotAcceptable());
 
     }
 }

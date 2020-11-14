@@ -80,4 +80,6 @@ public abstract class Tarea implements Comparable<Tarea>{
     }
     public abstract boolean isCompleja();
 
+    public abstract void verificarEstado();
+
 }

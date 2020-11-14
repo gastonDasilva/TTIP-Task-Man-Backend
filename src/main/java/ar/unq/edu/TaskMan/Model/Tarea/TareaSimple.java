@@ -22,6 +22,11 @@ public class TareaSimple extends Tarea {
     }
 
     @Override
+    public void verificarEstado() {
+
+    }
+
+    @Override
     public int compareTo(Tarea tarea) {
         if(tarea.isCompleja()){
             return 1;

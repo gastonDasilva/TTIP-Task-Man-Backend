@@ -9,6 +9,9 @@ import ar.unq.edu.TaskMan.Service.TareaService;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import ar.unq.edu.TaskMan.Webservice.ProyectoController;
 import ar.unq.edu.TaskMan.Webservice.UsuarioController;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,8 +28,7 @@ import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -102,4 +104,55 @@ public class ProyectoControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
     }
+    @Test
+    public void testCrearProyectoError() throws Exception{
+        Proyecto proyecto = new Proyecto();
+        proyecto.setNombre("Test de controllers");
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson=ow.writeValueAsString(proyecto);
+
+        when(usuarioService.getById(Long.valueOf(1))).thenReturn(Optional.empty());
+
+        mvc.perform(post("/proyecto/{userId}", 1).contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    public void testGetProyectoError() throws Exception{
+        when(proyectoService.getById(Long.valueOf(1))).thenReturn(Optional.empty());
+        mvc.perform(get("/proyecto/{id}", 1).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testGetProyectosDeUsuarioError() throws Exception{
+        when(usuarioService.getById(Long.valueOf(1))).thenReturn(Optional.empty());
+        mvc.perform(get("/proyectos/{id}", 1).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    /*@Test
+    public void testAgregarMiembroProyectoError() throws Exception{
+        Optional<Usuario> usuario = Optional.of(new Usuario(
+                "leadiaz",
+                "Leandro",
+                "Diaz",
+                "diazleandro4@gmail.com",
+                "123456"));
+        Proyecto proyecto = new Proyecto();
+
+        proyecto.setNombre("Test de controllers");
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson=ow.writeValueAsString(proyecto);
+
+        when(usuarioService.getById(Long.valueOf(1))).thenReturn(Optional.empty());
+
+        mvc.perform(post("/proyecto/{userId}", 1).contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(status().isNotFound());
+    }*/
 }
