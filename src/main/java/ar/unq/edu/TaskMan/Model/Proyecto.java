@@ -52,7 +52,9 @@ public class Proyecto {
     }
 
     public List<Tarea> getTareas() {
+        //verificar porque hago esta negrada
         List<Tarea> sortTareas = this.tareas;
+        sortTareas.stream().forEach(Tarea::verificarEstado);
         Collections.sort(sortTareas);
         return sortTareas;
     }
