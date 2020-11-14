@@ -52,8 +52,6 @@ public class UsuarioController {
 
     @RequestMapping(value = "/usuario/{id}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<Void> updateUser(@PathVariable("id") long id,@RequestBody Usuario usuario){
-
-
         try{
             System.out.println(usuario.getNombre());
             userService.update(usuario);
@@ -62,28 +60,6 @@ public class UsuarioController {
             throw new ResponseStatusException(HttpStatus.IM_USED, "el usuario o email ya esta siendo utilizado");
         }
     }
-
-    /*@RequestMapping(value = "/usuario/buscar", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<Usuario>> searchUser(@RequestBody String user) {
-
-        List<Usuario> results = this.userService.search(user);
-        System.out.println(results);
-
-        return new ResponseEntity<List<Usuario>>(results,HttpStatus.OK);
-
-    }*/
-
-
-
-//	@RequestMapping(value = "/usuario/buscar/{val}", method = RequestMethod.GET, produces = "application/json")
-//	public ResponseEntity<List<Usuario>> searchUserName(@PathVariable("val") String user) {
-//
-//			List<Usuario> results = this.userService.search(user);
-//			System.out.println(results);
-//
-//			return new ResponseEntity<List<Usuario>>(results,HttpStatus.OK);
-//
-//	}
 
     @RequestMapping(value = "/usuario/buscar/{usernameORemail}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Usuario> getUserByUsernameoEmail(@PathVariable("usernameORemail") String user) {
