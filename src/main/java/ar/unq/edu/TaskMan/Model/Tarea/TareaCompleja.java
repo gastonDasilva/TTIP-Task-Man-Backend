@@ -50,9 +50,9 @@ public class TareaCompleja extends Tarea {
 
     @Override
     public Estado getEstado(){
-        if(this.esCritica()){
-            setEstado(Estado.CRITICA);
-        }
+//        if(this.esCritica()){
+//            setEstado(Estado.CRITICA);
+//        }
         return super.getEstado();
     }
 
@@ -81,7 +81,7 @@ public class TareaCompleja extends Tarea {
     }
     @Override
     public void verificarEstado(){
-        if(esCritica() && fechaVencida(this.fecha_estimada)){
+        if(!esCritica() && fechaVencida(this.fecha_estimada)){
             verificarPrioridad();
         }
 
@@ -167,7 +167,7 @@ public class TareaCompleja extends Tarea {
         Boolean result = false;
         if(fecha1.getYear() <= now.getYear()){
             if(fecha1.getMonthValue() <= now.getMonthValue()){
-                result = fecha1.getDayOfMonth() > now.getDayOfMonth();
+                result = fecha1.getDayOfMonth() < now.getDayOfMonth();
             }
         }
         return result;
