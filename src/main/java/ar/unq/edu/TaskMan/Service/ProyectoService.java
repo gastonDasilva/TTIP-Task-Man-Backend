@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +22,9 @@ public class ProyectoService {
     private UsuarioService usuarioService;
     @Autowired
     private RolService rolService;
+    @Autowired
+    private SendMailService sendMailService;
+
 
     @Transactional
     public List<Proyecto> getAll(){
@@ -64,12 +65,15 @@ public class ProyectoService {
             rolService.save(roluser);
             proyect.addRol(roluser);
             this.updateProyecto(proyect);
+            gestionarMail(miembro,proyect);
             System.out.println("usuario Agregado " + miembro.getNombre());
         }
         return proyect;
     }
 
-//    public List<Proyecto> getProyectosDeUsuario(Long id) {
-//        return proyectoDAO.findAllByUserID(id);
-//    }
+    private void gestionarMail(Usuario usuarioAEnviarMail,Proyecto proyecto){
+        String body = "Has sido asignado como miembro del proyecto ".concat(proyecto.getNombre()).concat(". \n") ;
+        String titulo = "Taskman";
+        sendMailService.sendMail("taskman.app.corp@gmail.com",usuarioAEnviarMail.getEmail(),titulo,body);
+    }
 }
