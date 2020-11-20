@@ -76,9 +76,9 @@ public class ProyectoController {
     }
 */
     @RequestMapping(value = "/proyecto/{UserNameOrEmail}", method = RequestMethod.PUT, consumes = "application/json")
-    public ResponseEntity<Proyecto> agregarMiembro(@PathVariable("UserNameOrEmail") String userNameOrEmail, @RequestBody Proyecto proyecto){
+    public ResponseEntity<Proyecto> agregarMiembro(@PathVariable("UserNameOrEmail") String userNameOrEmail,@RequestParam Integer eliminarOrAgregarUser, @RequestBody Proyecto proyecto){
 
-        Proyecto proyectoActualizaco = this.proyectService.agregarMiembroAUnProyecto(proyecto,userNameOrEmail);
+        Proyecto proyectoActualizaco = this.proyectService.agregarMiembroAUnProyecto(proyecto,userNameOrEmail,eliminarOrAgregarUser);
         if(proyectoActualizaco == null) {
             return new ResponseEntity<Proyecto>(HttpStatus.NOT_FOUND);
         }else {

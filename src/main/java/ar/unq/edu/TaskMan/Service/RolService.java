@@ -33,6 +33,9 @@ public class RolService {
         return rolRepository.findById(id);
     }
 
+    public  Optional<Rol> getByUserAndProyectID(Long proyectID, Long userID){
+        return rolRepository.getRolIdByProyectAndUserID(proyectID,userID);
+    }
     @Transactional
     public void delete(Long id) {
         rolRepository.delete(this.getById(id).get());

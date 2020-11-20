@@ -35,6 +35,15 @@ public class Proyecto {
         this.rols.add(rol);
     }
 
+    public void deleteROl(Rol rol){
+        /*limpio al  usuario de la lista de roles/miembros del proyecto.*/
+        List<Rol> rols =  this.rols
+                .stream()
+                .filter(c -> !c.getId().equals(rol.getId()))
+                .collect(Collectors.toList());
+        setRols(rols);
+    }
+
     public Long getId() {
         return id;
     }
