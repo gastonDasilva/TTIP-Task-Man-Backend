@@ -2,6 +2,7 @@ package ar.unq.edu.TaskMan.Controllers;
 
 import ar.unq.edu.TaskMan.Model.Login;
 import ar.unq.edu.TaskMan.Model.Usuario;
+import ar.unq.edu.TaskMan.Service.ProyectoService;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import ar.unq.edu.TaskMan.Webservice.UsuarioController;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +39,8 @@ public class UsuarioControllerTest {
     private MockMvc mvc;
     @MockBean
     private UsuarioService usuarioService;
+    @MockBean
+    private ProyectoService proyectoService;
     @Test
     public void testObtenerTodosLosUsuarios() throws Exception {
         Usuario usuario = new Usuario(
