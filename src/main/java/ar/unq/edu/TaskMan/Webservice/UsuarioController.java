@@ -1,7 +1,11 @@
 package ar.unq.edu.TaskMan.Webservice;
 
+import ar.unq.edu.TaskMan.Model.Buscador;
 import ar.unq.edu.TaskMan.Model.Login;
+import ar.unq.edu.TaskMan.Model.Proyecto;
+import ar.unq.edu.TaskMan.Model.Tarea.Tarea;
 import ar.unq.edu.TaskMan.Model.Usuario;
+import ar.unq.edu.TaskMan.Service.ProyectoService;
 import ar.unq.edu.TaskMan.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,8 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @EnableAutoConfiguration
@@ -21,6 +27,8 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService userService ;
+    @Autowired
+    private ProyectoService proyectoService;
 
 
     @RequestMapping(value = "/usuarios", method = RequestMethod.GET, produces = "application/json")
@@ -82,6 +90,40 @@ public class UsuarioController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Contraseña incorrecta");
         }
 
+    }
+    @RequestMapping(value = "/buscar/{id}/{aBuscar}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Buscador> search(@PathVariable("id") Long id, @PathVariable("aBuscar") String aBuscar){
+        Buscador buscador = new Buscador();
+        List<Proyecto> proyectos = proyectoService.getAll();
+        Optional<Usuario> usuarioOptional = userService.getById(id);
+        if(usuarioOptional.isEmpty()){
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+        }
+        List<Proyecto> proyectosUsuarios = proyectos.stream()
+                .filter(proyecto -> proyecto.incluyeUsuario(usuarioOptional.get()))
+                .collect(Collectors.toCollection(()-> new ArrayList<>()));
+        List<Tarea> tareas = proyectosUsuarios.stream()
+                .map(proyecto -> proyecto.getTareas())
+                .flatMap(tareas1 -> tareas1.stream())
+                .collect(Collectors.toCollection(()-> new ArrayList<>()));
+//                .reduce((tareas1, tareas2) -> tareas1.addAll(tareas2));
+        buscador.setProyectos(proyectos.stream()
+                .filter(proyecto -> {
+                    System.out.println(proyecto.getNombre());
+                    System.out.println(proyecto.getNombre().contains(aBuscar));
+                    return proyecto.getNombre().toUpperCase().contains(aBuscar.toUpperCase());
+                })
+                .collect(Collectors.toCollection(()-> new ArrayList<>()))
+        );
+        buscador.setTareas(tareas.stream()
+                .filter(tarea -> {
+                    System.out.println(tarea.getTitulo());
+                    System.out.println(tarea.getTitulo().toUpperCase().contains(aBuscar.toUpperCase()));
+                    return tarea.getTitulo().toUpperCase().contains(aBuscar.toUpperCase());
+                })
+                .collect(Collectors.toCollection(()-> new ArrayList<>()))
+        );
+        return new ResponseEntity<>(buscador, HttpStatus.OK);
     }
 }
 
