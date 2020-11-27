@@ -24,7 +24,7 @@ public abstract class Tarea implements Comparable<Tarea>{
     private String titulo;
     private String descripcion;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Usuario asignado;
     private Estado estado;
 
