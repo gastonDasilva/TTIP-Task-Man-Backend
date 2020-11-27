@@ -85,4 +85,11 @@ public class TareaController {
         tareaService.update(tarea);
         return new ResponseEntity<>(tarea, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/tarea/actualizarEstado", method = RequestMethod.PUT)
+    public ResponseEntity<Tarea> updateTaskEstado(@RequestBody Tarea tarea,@RequestParam String estadoStr ){
+        tarea.setEstado(Estado.fromText(estadoStr));
+        tareaService.update(tarea);
+        return new ResponseEntity<>(tarea, HttpStatus.OK);
+    }
 }
