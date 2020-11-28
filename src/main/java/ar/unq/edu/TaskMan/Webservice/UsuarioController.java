@@ -107,7 +107,7 @@ public class UsuarioController {
                 .flatMap(tareas1 -> tareas1.stream())
                 .collect(Collectors.toCollection(()-> new ArrayList<>()));
 //                .reduce((tareas1, tareas2) -> tareas1.addAll(tareas2));
-        buscador.setProyectos(proyectos.stream()
+        buscador.setProyectos(proyectosUsuarios.stream()
                 .filter(proyecto -> {
                     System.out.println(proyecto.getNombre());
                     System.out.println(proyecto.getNombre().contains(aBuscar));
